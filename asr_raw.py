@@ -3,7 +3,9 @@
 import sys
 import json
 import time
+import mraa
 from record import record
+from led import LED
 
 IS_PY3 = sys.version_info.major == 3
 
@@ -96,6 +98,7 @@ def fetch_token():
 if __name__ == '__main__':
     token = fetch_token()
     recorder = record()
+    leds = LED()
     for data,idx in recorder:
         sound = b''.join(data)
         length = len(sound)
@@ -129,5 +132,15 @@ if __name__ == '__main__':
         if (IS_PY3):
             result_str = str(result_str, 'utf-8')
         print(result_str)
-        with open("result.txt", "w") as of:
-            of.write(result_str)
+        if "开" in result_str["result"] and "红" in result_str["result"]:
+            leds.open('r')
+        if "关" in result_str["result"] and "红" in result_str["result"]:
+            leds.close('r')
+        if "开" in result_str["result"] and "绿" in result_str["result"]:
+            leds.open('r')
+        if "关" in result_str["result"] and "绿" in result_str["result"]:
+            leds.close('r')
+        if "开" in result_str["result"] and "蓝" in result_str["result"]:
+            leds.open('r')
+        if "关" in result_str["result"] and "蓝" in result_str["result"]:
+            leds.close('r')

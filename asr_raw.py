@@ -36,18 +36,18 @@ RATE = 16000;  # 固定值
 # PCM格式
 FORMAT = 'pcm'
 # 普通版
-DEV_PID = 1537;  # 1537 表示识别普通话，使用输入法模型。根据文档填写PID，选择语言及识别模型
-ASR_URL = 'http://vop.baidu.com/server_api'
-SCOPE = 'audio_voice_assistant_get'  # 有此scope表示有asr能力，没有请在网页里勾选，非常旧的应用可能没有
+#DEV_PID = 1537;  # 1537 表示识别普通话，使用输入法模型。根据文档填写PID，选择语言及识别模型
+#ASR_URL = 'http://vop.baidu.com/server_api'
+#SCOPE = 'audio_voice_assistant_get'  # 有此scope表示有asr能力，没有请在网页里勾选，非常旧的应用可能没有
 
 #测试自训练平台需要打开以下信息， 自训练平台模型上线后，您会看见 第二步：“”获取专属模型参数pid:8001，modelid:1234”，按照这个信息获取 dev_pid=8001，lm_id=1234
 # DEV_PID = 8001 ;   
 # LM_ID = 1234 ;
 
 # 极速版
-#DEV_PID = 80001
-#ASR_URL = 'http://vop.baidu.com/pro_api'
-#SCOPE = 'brain_enhanced_asr'  # 有此scope表示有asr能力，没有请在网页里开通极速版
+DEV_PID = 80001
+ASR_URL = 'http://vop.baidu.com/pro_api'
+SCOPE = 'brain_enhanced_asr'  # 有此scope表示有asr能力，没有请在网页里开通极速版
 
 # 忽略scope检查，非常旧的应用可能没有
 # SCOPE = False
@@ -94,11 +94,12 @@ def fetch_token():
 """  TOKEN end """
 
 if __name__ == '__main__':
-    #token = fetch_token()
+    token = fetch_token()
     recorder = record()
     for data,idx in recorder:
         sound = b''.join(data)
-        if len(sound) == 0:
+        length = len(sound)
+        if length == 0:
             raise DemoError('sound length read 0 bytes')
 
         params = {'cuid': CUID, 'token': token, 'dev_pid': DEV_PID}
@@ -115,7 +116,7 @@ if __name__ == '__main__':
         print("url is", url);
         print("header is", headers)
         # print post_data
-        req = Request(ASR_URL + "?" + params_query, speech_data, headers)
+        req = Request(ASR_URL + "?" + params_query, sound, headers)
         try:
             begin = timer()
             f = urlopen(req)

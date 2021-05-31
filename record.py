@@ -5,11 +5,6 @@ import wave
 def record(sr=16000, chunk=1024, seconds=5):
     p = pyaudio.PyAudio()
     idx = 0
-    stream = p.open(format=pyaudio.paInt16,
-                    channels=1,
-                    rate=sr,
-                    input=True,
-                    frames_per_buffer=chunk)
     while 1:
         idx += 1
         frames = []
@@ -21,6 +16,11 @@ def record(sr=16000, chunk=1024, seconds=5):
                 print("Input error:The number must >0 and <60")
                 continue
             print("*start recording......%ds"%seconds)
+            stream = p.open(format=pyaudio.paInt16,
+                channels=1,
+                rate=sr,
+                input=True,
+                frames_per_buffer=chunk)
             for i in range(0, int(sr / chunk * seconds)):
                 data = stream.read(chunk)
                 frames.append(data)

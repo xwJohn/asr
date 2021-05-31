@@ -17,7 +17,7 @@ class LED:
         self.r.write(0)
         self.g.write(0)
         self.b.write(0)
-        self.rgb = zip(['r','g','b'],[self.r,self.g,self.b])
+        self.rgb = dict(zip(['r','g','b'],[self.r,self.g,self.b]))
 
     def open(self, idx):
         '''
@@ -40,7 +40,7 @@ class LED:
     def show(self):
         lists = ['r','g','b']
         idx=0
-        while 1:
+        for x in range(5):
             self.open(lists[idx%3])
             sleep(1)
             self.close(lists[idx%3])
@@ -53,12 +53,7 @@ def led_init():
     g = mraa.Gpio(3)
     b = mraa.Gpio(4)
 
- if __name__ == '__main__':
+if __name__ == '__main__':
     led = LED()
     led.show()
-    print("Type any key to exit...")
-    raw_input()
-    led.close('r')
-    led.close('g')
-    led.close('b')
     print("Exit")

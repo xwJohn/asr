@@ -131,16 +131,17 @@ if __name__ == '__main__':
 
         if (IS_PY3):
             result_str = str(result_str, 'utf-8')
+
+        if "开" in result_str and "红" in result_str:
+            leds.open('r')
+        if "关" in result_str and "红" in result_str:
+            leds.close('r')
+        if "开" in result_str and "绿" in result_str:
+            leds.open('r')
+        if "关" in result_str and "绿" in result_str:
+            leds.close('r')
+        if "开" in result_str and "蓝" in result_str:
+            leds.open('r')
+        if "关" in result_str and "蓝" in result_str:
+            leds.close('r')
         print(result_str)
-        if "开" in result_str["result"] and "红" in result_str["result"]:
-            leds.open('r')
-        if "关" in result_str["result"] and "红" in result_str["result"]:
-            leds.close('r')
-        if "开" in result_str["result"] and "绿" in result_str["result"]:
-            leds.open('r')
-        if "关" in result_str["result"] and "绿" in result_str["result"]:
-            leds.close('r')
-        if "开" in result_str["result"] and "蓝" in result_str["result"]:
-            leds.open('r')
-        if "关" in result_str["result"] and "蓝" in result_str["result"]:
-            leds.close('r')

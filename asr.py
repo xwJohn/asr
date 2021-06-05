@@ -134,14 +134,14 @@ if __name__ == '__main__':
 
         if "开" in result_str and "红" in result_str:
             leds.open('r')
-        if "关" in result_str and "红" in result_str:
+        elif "关" in result_str and "红" in result_str:
             leds.close('r')
-        if "开" in result_str and "绿" in result_str:
-            leds.open('r')
-        if "关" in result_str and "绿" in result_str:
-            leds.close('r')
-        if "开" in result_str and "蓝" in result_str:
-            leds.open('r')
-        if "关" in result_str and "蓝" in result_str:
-            leds.close('r')
+        elif "开" in result_str and "绿" in result_str:
+            leds.open('g')
+        elif "关" in result_str and "绿" in result_str:
+            leds.close('g')
+        elif "开" in result_str and "蓝" in result_str:
+            leds.open('b')
+        elif "关" in result_str and "蓝" in result_str:
+            leds.close('b')
         print(result_str)

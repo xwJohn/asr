@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import sys
+import sys,os
 import time
 import json
 import requests
@@ -69,9 +69,12 @@ def baidu_unit(text_words):
     response = requests.post(url, data=post_data, headers=headers)
     if response:
         #print (response.json())
-        resp = response.json()['result']['response_list'][0]['action_list'][0]['say']
-        print('robot said:', resp)
-        print(resp)
+        try:
+            resp = response.json()['result']['response_list'][0]['action_list'][0]['say']
+            print('robot said:')
+            print(resp)
+        except:
+            print(response.json())
     return resp
 
 def tts(words):
@@ -158,20 +161,20 @@ def asr(sound):
         print(err.reason)
         exit()
     print(result_str)
-    return result_str
+    return result_str[result_str.find("[")+2 : result_str.find(']')-1]
 
 if __name__ == '__main__':
-    #words = "今天星期几"
     #开启录音
     recorder = record()
     for data,idx in recorder:
         sound = b''.join(data)
         #语音转文字
         words = asr(sound)
-        print(words)
         # #获取机器人的答复内容
-        # robot_say = baidu_unit(words)
+        robot_say = baidu_unit(words)
         # #将机器人说的话，转换为语音
-        # tts(robot_say.encode('utf8'))
+        tts(robot_say.encode('utf8'))
+        #播放
+        os.system('aplay -r 16000 -c 2 result.wav')
 
 
